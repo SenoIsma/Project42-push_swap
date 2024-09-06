@@ -1,4 +1,3 @@
-
 NAME = push_swap
 CC = cc
 FLAGS = -Wall -Wextra -Werror -g
@@ -6,7 +5,10 @@ INCLUDES = -I./includes
 SRCS_DIR = srcs
 OBJS_DIR = objs
 SRCS = $(SRCS_DIR)/main.c \
-		$(SRCS_DIR)/test.c
+		$(SRCS_DIR)/ft_split.c \
+		$(SRCS_DIR)/utils.c \
+		$(SRCS_DIR)/ft_verif.c \
+		$(SRCS_DIR)/mouvements.c 
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
