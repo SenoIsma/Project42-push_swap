@@ -54,7 +54,144 @@ int ft_init(t_node *stack, int *tab, int size)
 	return (SUCCESS);
 }
 
-int	sort(t_node *stack)
+int	is_sorted(t_node *stack)
+{
+	int	i;
+
+	if (stack->info_b.size != 0)
+		return (FALSE);
+	i = 0;
+	while (i < stack->info_a.size)
+	{
+		if (stack->node_a[i] != i + 1)
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+int	found_index(int value, int *tab, int size)
+{
+	int			i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (tab[i] == value)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void	sort_size_3(t_node *stack)
+{
+	if (stack->node_a[0] == stack->info_a.min)
+	{
+		if (stack->node_a[1] == stack->info_a.max)
+		{
+			sa(stack, TRUE);
+			ra(stack, TRUE);
+		}
+	}
+	else if (stack->node_a[0] == stack->info_a.max)
+	{
+		if (stack->node_a[1] == stack->info_a.min)
+			ra(stack, TRUE);
+		else
+		{
+			sa(stack, TRUE);
+			rra(stack, TRUE);
+		}
+	}
+	else
+	{
+		if (stack->node_a[1] == stack->info_a.min)
+			sa(stack, TRUE);
+		else
+			rra(stack, TRUE);
+	}
+}
+
+void	algo_5(t_node *stack)
+{
+	int	i;
+	int	use;
+
+	i = 0;
+	if (found_index(1, stack->node_a, stack->info_a.size) < stack->info_a.size / 2)
+		use = 1;
+	else
+		use = 0;
+	while (stack->info_a.size != 3)
+	{
+		if (stack->node_a[0] == i + 1)
+		{
+			pb(stack, TRUE);
+			if (found_index(++i + 1, stack->node_a, stack->info_a.size) < stack->info_a.size / 2)
+				use = 1;
+			else
+				use = 0;
+		}
+		else if (use == 1)
+			ra(stack, TRUE);
+		else
+			rra(stack, TRUE);
+	}
+}
+
+void	sort_size_5(t_node *stack)
+{
+	algo_5(stack);
+	update_info(stack, 1);
+	sort_size_3(stack);
+	while (stack->info_b.size != 0)
+		pa(stack, TRUE);
+}
+
+void	sort_with_median(t_node *stack)
+{
+	while (stack->info_a.size != 3)
+	{
+		if (stack->info_a.med <= stack->node_a[0])
+		{
+			pb(stack, TRUE);
+			if (stack->info_a.med == stack->node_b[0])
+				update_info(stack, 1);
+		}
+		else
+			ra(stack, TRUE);
+	}
+}
+
+void	sort_size_n(t_node *stack)
+{
+	int	use;
+
+	update_info(stack, 1);
+	sort_with_median(stack);
+	update_info(stack, 1);
+	sort_size_3(stack);
+	while (stack->info_b.size != 0)
+	{
+		update_info(stack, -1);
+		choose_move(stack); // ICI 
+	}
+	update_info(stack, 1);
+	if (found_index(stack->info.min, stack->node_a, stack->info_a.size) < stack->info_a.med)
+		use = 1;
+	else
+		use = 0;
+	while (stack->a[0] != stack->info_a.min)
+	{
+		if (use == 1)
+			ra(stack, TRUE);
+		else
+			rra(stack, TRUE);
+	}
+}
+
+int	ft_algo(t_node *stack)
 {
 	if (is_sorted(stack) == TRUE)
 		return (SUCCESS);
@@ -71,6 +208,7 @@ int	sort(t_node *stack)
 	return (EXIT_FAILURE);
 }
 
+
 int	main(int argc, char **argv)
 {
 	int	*tab;
@@ -83,14 +221,14 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		return (write(2, "Error : No arguments\n", 21), ERROR_ARGS_NUMBER);
 	if (argc == 2 && ft_strlen(argv[1]) == 0)
-		return (write(2, "Error : Empty arguments\n", 24), ERROR_ARGS_EMPTY);
+		return (write(2, "Error : Empty arguments\n", 25), ERROR_ARGS_EMPTY);
 	tab = parsing(&argv[1], argc - 1, &size);
 	if (!tab)
 		return (write(2, "Error: Parsing\n", 16), ERROR_PARSING);
 	if (ft_init(&stack, tab, size) == ERROR_INIT)
-		return (write(2, "Error: Initialisation\n", 23), ft_clear(&stack), ERROR_INIT);
-	// if (ft_algo(&stack) == ERROR_ALGO)
-	// 	return (write(2, "Error: sort\n", 12), ft_clear(&stack), ERROR_ALGO);
+		return (write(2, "Error : Initialisation\n", 24), ft_clear(&stack), ERROR_INIT);
+	 if (ft_algo(&stack) == ERROR_ALGO)
+	 	return (write(2, "Error : Algorithme\n", 20), ft_clear(&stack), ERROR_ALGO);
 	ft_clear(&stack);
 	return (SUCCESS);
 }
