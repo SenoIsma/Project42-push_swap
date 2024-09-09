@@ -1,9 +1,23 @@
 #include "push_swap.h"
 
-int verif_int(char **strs)
+int	is_a_valid_char(char c)
 {
-	int i;
-	int j;
+	const char	valid_chars[] = "0123456789+-";
+	int			i;
+
+	i = 0;
+	while (valid_chars[i])
+	{
+		if (c == valid_chars[i])
+			return (TRUE);
+		i++;
+	}
+	return (FALSE);
+}
+int	all_is_number(char **strs)
+{
+	int	i;
+	int	j;
 
 	i = 0;
 	while (strs[i])
@@ -11,50 +25,30 @@ int verif_int(char **strs)
 		j = 0;
 		while (strs[i][j])
 		{
-			if ((strs[i][j] < '0' || strs[i][j] > '9') && strs[i][j] != '-')
-			{
-				ft_free_tab(strs);
-				ft_error("Error : Not a number\n", ERROR_INT);
-			}
+			if (!is_a_valid_char(strs[i][j]))
+				return (FALSE);
 			j++;
 		}
 		i++;
 	}
-	return (SUCCESS);
+	return (TRUE);
 }
-int verif_integer(char *str)
+int	is_duplicate(int *tab, int nb_nbrs)
 {
-	int i;
+	int	i;
+	int	j;
 
 	i = 0;
-	while (str[i])
-	{
-		if ((str[i] < '0' || str[i] > '9') && str[i] != '-')
-		{
-			ft_error("Error : Not a number\n", ERROR_INT);
-		}
-		i++;
-	}
-	return (SUCCESS);
-}
-void	verif_double(t_data *data)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while ((size_t)i < data->size)
+	while (i < nb_nbrs)
 	{
 		j = i + 1;
-		while ((size_t)j < data->size)
+		while (j < nb_nbrs)
 		{
-			if (data->tab[i] == data->tab[j])
-			{
-				free(data->tab);
-				ft_error("Error : Double\n", ERROR_INT);
-			}
+			if (tab[i] == tab[j])
+				return (TRUE);
 			j++;
 		}
 		i++;
 	}
+	return (FALSE);
 }

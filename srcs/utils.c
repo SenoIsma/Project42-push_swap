@@ -72,17 +72,15 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-
-void	ft_free_tab(char **tab)
+void	*ft_calloc(size_t count, size_t size)
 {
-	int i;
+	void	*ptr;
 
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		tab[i] = NULL;
-		i++;
-	}
-	free(tab);
+	if (size != 0 && count * size / size != count)
+		return (NULL);
+	ptr = (void *)malloc(count * size);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, count * size);
+	return (ptr);
 }

@@ -1,78 +1,96 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouhlel <ibouhlel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 08:04:29 by ibouhlel          #+#    #+#             */
+/*   Updated: 2024/09/09 11:20:07 by ibouhlel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <push_swap.h>
 
-void	ft_error(char *str, int error)
+int	ft_position(int *sorted_tab, int nb, int size)
 {
-	write(2, str, ft_strlen(str));
-	exit(error);
-}
-
-int main(int argc, char **argv)
-{
-	char **strs;
-	t_data data;
 	int i;
-
+	
 	i = 0;
-	ft_bzero(&data, sizeof(t_data));
-	if (argc < 2)
-		return (ERROR_ARG);
-	else if (argc == 2)
+	while (i < size)
 	{
-		strs = ft_split(argv[1], ' ');
-		if (!strs)
-			return (write(2, "Error : Malloc failed\n", 22), ERROR_MALLOC);
-		while (strs[i])
-			i++;
-		data.size = i;
-		verif_int(strs);
-		data.tab = malloc(sizeof(int) * (data.size + 1));
-		if (!data.tab)
-			return (write(2, "Error : Malloc failed\n", 22), ft_free_tab(strs), ERROR_MALLOC);
-		i = 0;
-		while (strs[i])
-		{
-			if (ft_atoi(strs[i]) != ft_atol(strs[i]))
-			{
-				ft_free_tab(strs);
-				ft_error("Error : overflow\n", ERROR_INT);
-			}
-			data.tab[i] = ft_atoi(strs[i]);
-			i++;
-		}
-		ft_free_tab(strs);
-		verif_double(&data);
-	}
-	else
-	{
-		i = 1;
-		while (argv[i])
-		{
-			verif_integer(argv[i]);
-			i++;
-		}
-		data.size = argc - 1;
-		data.tab = malloc(sizeof(int) * (data.size + 1));
-		if (!data.tab)
-			return (write(2, "Error : Malloc failed\n", 22), ERROR_MALLOC);
-		i = 1;
-		while (argv[i])
-		{
-			if (ft_atoi(argv[i]) != ft_atol(argv[i]))
-			{
-				free(data.tab);
-				ft_error("Error : overflow\n", ERROR_INT);
-			}
-			data.tab[i - 1] = ft_atoi(argv[i]);
-			i++;
-		}
-		verif_double(&data);
-	}
-	i = 0;
-	while ((size_t)i < data.size)
-	{
-		printf("%d\n", data.tab[i]);
+		if (sorted_tab[i] == nb)
+			return (i + 1);
 		i++;
 	}
-	free(data.tab);
+	return (-1);
+}
+
+int ft_init(t_node *stack, int *tab, int size)
+{
+	int i;
+	int sorted_tab[500];
+	
+	ft_bzero(sorted_tab, 500);
+	stack->node_a = ft_calloc(size, sizeof(t_node));
+	if (!stack->node_a)
+		return (free(tab), EXIT_FAILURE);
+	stack->node_b = ft_calloc(size, sizeof(t_node));
+	if (!stack->node_b)
+		return (free(tab), EXIT_FAILURE);
+	if (size > 500)
+		return (free(tab), EXIT_FAILURE);
+	bubble_sort(tab, size, sorted_tab);
+	i = 0;
+	while (i < size)
+	{
+		stack->node_a[i] = ft_position(sorted_tab, tab[i], size);
+		i++;
+	}
+	stack->info = (t_info){size, 1, size, sorted_tab[size / 2]};
+	stack->info_a = (t_info){size, 1, size, sorted_tab[size / 2]};
+	stack->info_b = (t_info){0, 0, 0, 0};
+	free(tab);
+	return (SUCCESS);
+}
+
+int	sort(t_node *stack)
+{
+	if (is_sorted(stack) == TRUE)
+		return (SUCCESS);
+	if (stack->info.size == 2)
+		sa(stack);
+	else if (stack->info.size <= 3)
+		sort_size_3(stack);
+	else if (stack->info.size <= 5)
+		sort_size_5(stack);
+	else
+		sort_size_n(stack);
+	if (is_sorted(stack) == TRUE)
+		return (SUCCESS);
+	return (EXIT_FAILURE);
+}
+
+int	main(int argc, char **argv)
+{
+	int	*tab;
+	t_node	stack;
+	int size;
+	int	i;
+	
+	i = 0;
+	ft_bzero(&stack, sizeof(t_node));
+	if (argc < 2)
+		return (write(2, "Error : No arguments\n", 21), ERROR_ARGS_NUMBER);
+	if (argc == 2 && ft_strlen(argv[1]) == 0)
+		return (write(2, "Error : Empty arguments\n", 24), ERROR_ARGS_EMPTY);
+	tab = parsing(&argv[1], argc - 1, &size);
+	if (!tab)
+		return (write(2, "Error: Parsing\n", 16), ERROR_PARSING);
+	if (ft_init(&stack, tab, size) == ERROR_INIT)
+		return (write(2, "Error: Initialisation\n", 23), ft_clear(&stack), ERROR_INIT);
+	// if (ft_algo(&stack) == ERROR_ALGO)
+	// 	return (write(2, "Error: sort\n", 12), ft_clear(&stack), ERROR_ALGO);
+	ft_clear(&stack);
 	return (SUCCESS);
 }
