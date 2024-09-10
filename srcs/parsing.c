@@ -6,7 +6,7 @@
 /*   By: ibouhlel <ibouhlel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:35:07 by ibouhlel          #+#    #+#             */
-/*   Updated: 2024/09/09 10:37:58 by ibouhlel         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:55:33 by ibouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-int *create_tab(char **strs)
+int	*create_tab(char **strs)
 {
 	int	i;
 	int	*tab;
-	
+
 	i = 0;
 	while (strs[i])
 		i++;
@@ -86,12 +86,13 @@ void	bubble_sort(int *tab, int size, int sorted_tab[500])
 		i++;
 	}
 }
+
 char	*make_one(char **argv, int argc)
 {
 	char	*str;
 	char	*tmp;
 	int		i;
-	
+
 	i = 1;
 	str = ft_strjoin(argv[0], " ");
 	if (!str)
@@ -115,11 +116,12 @@ char	*make_one(char **argv, int argc)
 
 int	*parsing(char **argv, int argc, int *size)
 {
-	int *tab;
-	char *str;
-	char **strs;
-	int i = 0;
-	
+	int		*tab;
+	char	*str;
+	char	**strs;
+	int		i;
+
+	i = 0;
 	str = make_one(argv, argc);
 	if (!str)
 		return (NULL);

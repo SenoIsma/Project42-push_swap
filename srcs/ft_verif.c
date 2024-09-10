@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_verif.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouhlel <ibouhlel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 11:47:22 by ibouhlel          #+#    #+#             */
+/*   Updated: 2024/09/10 11:48:21 by ibouhlel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int	is_a_valid_char(char c)
@@ -14,6 +26,7 @@ int	is_a_valid_char(char c)
 	}
 	return (FALSE);
 }
+
 int	all_is_number(char **strs)
 {
 	int	i;
@@ -33,6 +46,7 @@ int	all_is_number(char **strs)
 	}
 	return (TRUE);
 }
+
 int	is_duplicate(int *tab, int nb_nbrs)
 {
 	int	i;

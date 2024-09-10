@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_info.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouhlel <ibouhlel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 10:35:32 by ibouhlel          #+#    #+#             */
+/*   Updated: 2024/09/10 11:46:37 by ibouhlel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <push_swap.h>
+
 int	min(int *tab, int size)
 {
 	int	min;
@@ -30,7 +44,7 @@ int	max(int *tab, int size)
 	return (max);
 }
 
-int	make_info(t_info *info, int *tab, int size, int	i)
+int	make_info(t_info *info, int *tab, int size, int i)
 {
 	int	sorted_tab[500];
 
@@ -50,8 +64,10 @@ int	make_info(t_info *info, int *tab, int size, int	i)
 
 void	update_info(t_node *stack, int i)
 {
-	if (update_info_bis(&stack->info_a, stack->node_a, stack->info_a.size, i))
-		return (ft_clear(stack), write(2, "Error : update_info\n", 20), exit(ERROR_NUMBER));
-	if (update_info_bis(&stack->info_b, stack->node_b, stack->info_b.size, i))
-		return (ft_clear(stack), write(2, "Error : update_info\n", 20), exit(ERROR_NUMBER));
+	if (make_info(&stack->info_a, stack->node_a, stack->info_a.size, i))
+		return (ft_clear(stack), write(2, "Error : update_info\n", 20), \
+		exit(ERROR_NUMBER));
+	if (make_info(&stack->info_b, stack->node_b, stack->info_b.size, i))
+		return (ft_clear(stack), write(2, "Error : update_info\n", 20), \
+		exit(ERROR_NUMBER));
 }

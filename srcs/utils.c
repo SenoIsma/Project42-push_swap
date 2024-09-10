@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouhlel <ibouhlel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 11:55:42 by ibouhlel          #+#    #+#             */
+/*   Updated: 2024/09/10 11:56:40 by ibouhlel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	ft_bzero(void *s, size_t n)
@@ -13,6 +25,7 @@ void	ft_bzero(void *s, size_t n)
 		i++;
 	}
 }
+
 int	ft_atoi(const char *nptr)
 {
 	unsigned int	i;
@@ -38,7 +51,8 @@ int	ft_atoi(const char *nptr)
 	}
 	return (r * signe);
 }
-long ft_atol(const char *nptr)
+
+long	ft_atol(const char *nptr)
 {
 	unsigned int	i;
 	int				signe;
@@ -63,6 +77,7 @@ long ft_atol(const char *nptr)
 	}
 	return (r * signe);
 }
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -72,6 +87,7 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*ptr;

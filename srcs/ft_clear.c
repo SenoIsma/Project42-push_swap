@@ -6,7 +6,7 @@
 /*   By: ibouhlel <ibouhlel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 08:04:16 by ibouhlel          #+#    #+#             */
-/*   Updated: 2024/09/09 10:37:11 by ibouhlel         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:44:48 by ibouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_free(void **ptr)
 
 void	ft_free_taab(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
